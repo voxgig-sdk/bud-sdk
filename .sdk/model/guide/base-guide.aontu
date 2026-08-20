@@ -1,0 +1,19 @@
+# Guide
+
+guide: {
+  metrics: count: entity: 1
+  metrics: count: path: 2
+  metrics: count: method: 2
+
+  entity: account: {
+    path: "/accounts": {
+      op: list: method: *GET
+      op: list: transform: res: *("`body.data`")|top
+    }
+    path: "/accounts/{id}": {
+      op: load: method: *GET
+      op: load: transform: res: *("`body.data`")|top
+    }
+  }
+
+}

@@ -1,0 +1,100 @@
+# Entity: account
+
+main: kit: entity: account: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "account_type"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "balance"
+      req: false
+      type: "`$NUMBER`"
+    }
+    {
+      name: "currency"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "display_name"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "id"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "provider"
+      req: false
+      type: "`$STRING`"
+    }
+  ]
+
+  id: {
+    field: "id"
+    name: "id"
+  }
+
+  name: "account"
+  op: {
+    list: {
+      name: "list"
+      points: [
+        {
+          method: "GET"
+          orig: "/accounts"
+          parts: [
+            "accounts"
+          ]
+          transform: {
+            req: "`reqdata`"
+            res: "`body.data`"
+          }
+        }
+      ]
+    }
+    load: {
+      name: "load"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "id"
+                orig: "id"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/accounts/{id}"
+          parts: [
+            "accounts"
+            "{id}"
+          ]
+          select: {
+            exist: [
+              "id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body.data`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

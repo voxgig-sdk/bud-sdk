@@ -1,0 +1,44 @@
+# BasicAccountFlow
+
+main: kit: flow: BasicAccountFlow:
+{
+  entity: "account",
+  kind: "basic",
+  name: "BasicAccountFlow",
+  step: [
+    {
+      op: "list",
+      valid: [
+        {
+          apply: "ItemExists",
+          def: {
+            ref: "account_ref01"
+          }
+        }
+      ]
+    }
+
+    {
+      input: {
+        ref: "account_ref01",
+        srcdatavar: "account_ref01_data",
+        suffix: "_dt0"
+      }
+
+      match: {
+        id: "account01"
+      }
+
+      op: "load",
+      valid: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-account_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicAccountFlow"
+}

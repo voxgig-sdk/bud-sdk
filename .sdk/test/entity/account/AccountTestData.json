@@ -1,0 +1,41 @@
+{
+  "existing": {
+    "account": {
+      "ACCOUNT00": {
+        "account_type": "s3c",
+        "balance": 61,
+        "currency": "s3e",
+        "display_name": "s3f",
+        "id": "ACCOUNT00",
+        "provider": "s41"
+      },
+      "ACCOUNT01": {
+        "account_type": "s78",
+        "balance": 121,
+        "currency": "s7a",
+        "display_name": "s7b",
+        "id": "ACCOUNT01",
+        "provider": "s7d"
+      },
+      "ACCOUNT02": {
+        "account_type": "sb4",
+        "balance": 181,
+        "currency": "sb6",
+        "display_name": "sb7",
+        "id": "ACCOUNT02",
+        "provider": "sb9"
+      }
+    }
+  },
+  "new": {
+    "account": {
+      "account_ref01": {
+        "account_type": "sf0",
+        "balance": 241,
+        "currency": "sf2",
+        "display_name": "sf3",
+        "provider": "sf5"
+      }
+    }
+  }
+}

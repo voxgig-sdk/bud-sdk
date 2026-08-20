@@ -1,0 +1,85 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Bud Financial Accounts API",
+    "version": "2.0.0",
+    "description": "List and read Bud open-banking financial accounts."
+  },
+  "servers": [
+    { "url": "https://api-sandbox.thisisbud.com/financial/v2" }
+  ],
+  "security": [
+    { "bearerAuth": [] }
+  ],
+  "paths": {
+    "/accounts": {
+      "get": {
+        "operationId": "listAccounts",
+        "summary": "List accounts",
+        "responses": {
+          "200": {
+            "description": "Accounts",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": { "$ref": "#/components/schemas/Account" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/accounts/{id}": {
+      "get": {
+        "operationId": "getAccount",
+        "summary": "Retrieve an account",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "The requested account",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": { "$ref": "#/components/schemas/Account" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    },
+    "schemas": {
+      "Account": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "account_type": { "type": "string" },
+          "provider": { "type": "string" },
+          "currency": { "type": "string" },
+          "balance": { "type": "number" },
+          "display_name": { "type": "string" }
+        }
+      }
+    }
+  }
+}
