@@ -1,6 +1,15 @@
 {
+  "NAME": "BUD",
+  "Name": "Bud",
   "def": "bud-accounts-only.json",
   "main": {
+    "api": {
+      "entity": {},
+      "guide": {}
+    },
+    "custom": {
+      "plurals": {}
+    },
     "def": {
       "desc": ""
     },
@@ -910,5 +919,8 @@
     }
   },
   "name": "bud",
+  "name-": "bud",
+  "name_": "bud",
+  "name__orig": "bud",
   "origin": "voxgig-sdk"
 }
