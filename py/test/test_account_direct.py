@@ -107,15 +107,18 @@ def _account_direct_setup(mockres):
     env = runner.env_override({
         "BUD_TEST_ACCOUNT_ENTID": {},
         "BUD_TEST_LIVE": "FALSE",
-        "BUD_APIKEY": "NONE",
+        "BUD_APIKEY": "",
     })
 
     live = env.get("BUD_TEST_LIVE") == "TRUE"
 
     if live:
-        merged_opts = {
+        # sdk-test-control.json's test.client.options seeds the live
+        # client; the generated fields below overwrite anything they name.
+        merged_opts = dict(runner.live_client_options())
+        merged_opts.update({
             "apikey": env.get("BUD_APIKEY"),
-        }
+        })
         client = BudSDK(merged_opts)
         return {
             "client": client,

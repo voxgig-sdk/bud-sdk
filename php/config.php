@@ -85,6 +85,10 @@ class BudConfig
               'type' => '`$STRING`',
             ],
           ],
+          'id' => [
+            'field' => 'id',
+            'name' => 'id',
+          ],
           'name' => 'account',
           'op' => [
             'list' => [
@@ -96,13 +100,18 @@ class BudConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/accounts',
-                  'parts' => [
-                    'accounts',
+                  'segments' => [
+                    [
+                      'lit' => 'accounts',
+                    ],
                   ],
                   'select' => [],
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body.data`',
+                  ],
+                  'parts' => [
+                    'accounts',
                   ],
                 ],
               ],
@@ -126,9 +135,13 @@ class BudConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/accounts/{id}',
-                  'parts' => [
-                    'accounts',
-                    '{id}',
+                  'segments' => [
+                    [
+                      'lit' => 'accounts',
+                    ],
+                    [
+                      'var' => 'id',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -138,6 +151,10 @@ class BudConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body.data`',
+                  ],
+                  'parts' => [
+                    'accounts',
+                    '{id}',
                   ],
                 ],
               ],

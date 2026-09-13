@@ -50,8 +50,10 @@ main: kit: entity: account: {
         {
           method: "GET"
           orig: "/accounts"
-          parts: [
-            "accounts"
+          segments: [
+            {
+              lit: "accounts"
+            }
           ]
           transform: {
             req: "`reqdata`"
@@ -77,9 +79,13 @@ main: kit: entity: account: {
           }
           method: "GET"
           orig: "/accounts/{id}"
-          parts: [
-            "accounts"
-            "{id}"
+          segments: [
+            {
+              lit: "accounts"
+            }
+            {
+              var: "id"
+            }
           ]
           select: {
             exist: [

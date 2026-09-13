@@ -123,15 +123,17 @@ function account_direct_setup($mockres)
     $env = Runner::env_override([
         "BUD_TEST_ACCOUNT_ENTID" => [],
         "BUD_TEST_LIVE" => "FALSE",
-        "BUD_APIKEY" => "NONE",
+        "BUD_APIKEY" => "",
     ]);
 
     $live = $env["BUD_TEST_LIVE"] === "TRUE";
 
     if ($live) {
-        $merged_opts = [
+        // Merged so the generated fields win: sdk-test-control.json's
+        // test.client.options adds to the live client, it does not redirect it.
+        $merged_opts = array_merge(Runner::live_client_options(), [
             "apikey" => $env["BUD_APIKEY"],
-        ];
+        ]);
         $client = new BudSDK($merged_opts);
         return [
             "client" => $client,

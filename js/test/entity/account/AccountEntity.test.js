@@ -5,7 +5,7 @@ require('dotenv').config({ quiet: true, path: [envlocal] })
 const Path = require('node:path')
 const Fs = require('node:fs')
 
-const { test, describe } = require('node:test')
+const { test, describe, afterEach } = require('node:test')
 const assert = require('node:assert')
 
 
@@ -13,6 +13,8 @@ const { BudSDK, BaseFeature, stdutil, config } = require('../../..')
 
 const {
   envOverride,
+  liveClientOptions,
+  liveDelay,
   makeCtrl,
   makeMatch,
   makeReqdata,
@@ -22,6 +24,10 @@ const {
 
 
 describe('AccountEntity', async () => {
+
+  // Per-test live pacing. Delay is read from sdk-test-control.json's
+  // `test.live.delayMs`; only sleeps when BUD_TEST_LIVE=TRUE.
+  afterEach(liveDelay('BUD_TEST_LIVE'))
 
   test('instance', async () => {
     const testsdk = BudSDK.test()
@@ -95,17 +101,24 @@ function basicSetup(extra) {
     'BUD_TEST_ACCOUNT_ENTID': idmap,
     'BUD_TEST_LIVE': 'FALSE',
     'BUD_TEST_EXPLAIN': 'FALSE',
-    'BUD_APIKEY': 'NONE',
+    'BUD_APIKEY': '',
   })
 
   idmap = env['BUD_TEST_ACCOUNT_ENTID']
 
   if ('TRUE' === env.BUD_TEST_LIVE) {
     client = new BudSDK(merge([
+      // FIRST, so the generated fields below win: sdk-test-control.json's
+      // test.client.options adds to the live client, it does not redirect it.
+      liveClientOptions(),
       {
         apikey: env.BUD_APIKEY,
       },
-      extra
+      // 'extra || {}', not a bare 'extra': struct.merge returns UNDEFINED when
+      // the last entry is undefined, and basicSetup is normally called with no
+      // argument at all - so a bare 'extra' silently discarded the apikey and
+      // server values above and handed the SDK undefined.
+      extra || {}
     ]))
   }
 

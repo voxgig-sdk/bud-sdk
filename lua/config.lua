@@ -59,6 +59,10 @@ local function make_config()
             ["type"] = "`$STRING`",
           },
         },
+        ["id"] = {
+          ["field"] = "id",
+          ["name"] = "id",
+        },
         ["name"] = "account",
         ["op"] = {
           ["list"] = {
@@ -70,13 +74,18 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/accounts",
-                ["parts"] = {
-                  "accounts",
+                ["segments"] = {
+                  {
+                    ["lit"] = "accounts",
+                  },
                 },
                 ["select"] = {},
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body.data`",
+                },
+                ["parts"] = {
+                  "accounts",
                 },
               },
             },
@@ -100,9 +109,13 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/accounts/{id}",
-                ["parts"] = {
-                  "accounts",
-                  "{id}",
+                ["segments"] = {
+                  {
+                    ["lit"] = "accounts",
+                  },
+                  {
+                    ["var"] = "id",
+                  },
                 },
                 ["select"] = {
                   ["exist"] = {
@@ -112,6 +125,10 @@ local function make_config()
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body.data`",
+                },
+                ["parts"] = {
+                  "accounts",
+                  "{id}",
                 },
               },
             },

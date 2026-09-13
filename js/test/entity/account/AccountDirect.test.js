@@ -2,7 +2,7 @@
 const envlocal = __dirname + '/../../../.env.local'
 require('dotenv').config({ quiet: true, path: [envlocal] })
 
-const { test, describe } = require('node:test')
+const { test, describe, afterEach } = require('node:test')
 const assert = require('node:assert')
 
 
@@ -10,10 +10,16 @@ const { BudSDK } = require('../../..')
 
 const {
   envOverride,
+  liveClientOptions,
+  liveDelay,
 } = require('../../utility')
 
 
 describe('AccountDirect', async () => {
+
+  // Per-test live pacing. Delay is read from sdk-test-control.json's
+  // `test.live.delayMs`; only sleeps when BUD_TEST_LIVE=TRUE.
+  afterEach(liveDelay('BUD_TEST_LIVE'))
 
   test('direct-exists', async () => {
     const sdk = new BudSDK({
@@ -103,15 +109,18 @@ function directSetup(mockres) {
   const env = envOverride({
     'BUD_TEST_ACCOUNT_ENTID': {},
     'BUD_TEST_LIVE': 'FALSE',
-    'BUD_APIKEY': 'NONE',
+    'BUD_APIKEY': '',
   })
 
   const live = 'TRUE' === env.BUD_TEST_LIVE
 
   if (live) {
-    const client = new BudSDK({
+    // Merged so the generated fields win: sdk-test-control.json's
+    // test.client.options adds to the live client, it does not redirect it.
+    const client = new BudSDK(
+      Object.assign({}, liveClientOptions(), {
       apikey: env.BUD_APIKEY,
-    })
+      }))
 
     let idmap = env['BUD_TEST_ACCOUNT_ENTID']
     if ('string' === typeof idmap && idmap.startsWith('{')) {
