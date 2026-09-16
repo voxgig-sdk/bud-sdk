@@ -48,6 +48,12 @@ main: kit: entity: account: {
       name: "list"
       points: [
         {
+          contract: {
+            id: "GET /accounts"
+            json: "{\"operationId\":\"listAccounts\",\"parameters\":[],\"protocol\":\"http\",\"responses\":{\"200\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"data\":{\"items\":{\"properties\":{\"account_type\":{\"type\":\"string\"},\"balance\":{\"type\":\"number\"},\"currency\":{\"type\":\"string\"},\"display_name\":{\"type\":\"string\"},\"id\":{\"type\":\"string\"},\"provider\":{\"type\":\"string\"}},\"type\":\"object\"},\"type\":\"array\"}},\"type\":\"object\"}}},\"description\":\"Accounts\"}},\"security\":[{\"bearerAuth\":[]}],\"securitySchemes\":{\"bearerAuth\":{\"scheme\":\"bearer\",\"type\":\"http\"}},\"securitySource\":\"definition\"}"
+            source: "openapi3"
+            version: 1
+          }
           method: "GET"
           orig: "/accounts"
           segments: [
@@ -76,6 +82,12 @@ main: kit: entity: account: {
                 type: "`$STRING`"
               }
             ]
+          }
+          contract: {
+            id: "GET /accounts/{id}"
+            json: "{\"operationId\":\"getAccount\",\"parameters\":[{\"in\":\"path\",\"name\":\"id\",\"required\":true,\"schema\":{\"type\":\"string\"}}],\"protocol\":\"http\",\"responses\":{\"200\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"data\":{\"properties\":{\"account_type\":{\"type\":\"string\"},\"balance\":{\"type\":\"number\"},\"currency\":{\"type\":\"string\"},\"display_name\":{\"type\":\"string\"},\"id\":{\"type\":\"string\"},\"provider\":{\"type\":\"string\"}},\"type\":\"object\"}},\"type\":\"object\"}}},\"description\":\"The requested account\"}},\"security\":[{\"bearerAuth\":[]}],\"securitySchemes\":{\"bearerAuth\":{\"scheme\":\"bearer\",\"type\":\"http\"}},\"securitySource\":\"definition\"}"
+            source: "openapi3"
+            version: 1
           }
           method: "GET"
           orig: "/accounts/{id}"
